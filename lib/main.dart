@@ -43,6 +43,8 @@ class _QuizPageState extends State<QuizPage> {
     ),
   ];
 
+  List<bool> answers = [false, true, true];
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -81,6 +83,9 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked true.
+
+                correctOrWrongAnswer(true); //For correct answer
+
 //                Increment Question
                 incrementQuestion(questionNumber);
               },
@@ -101,6 +106,9 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
+
+                correctOrWrongAnswer(false); //For wrong answer
+
                 //Increment Question
                 incrementQuestion(questionNumber);
               },
@@ -115,15 +123,18 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
+  void correctOrWrongAnswer(bool trueOrFalse) {
+    bool correctAnswer = answers[questionNumber];
+    if (correctAnswer == trueOrFalse) {
+      print('User got it right');
+    } else {
+      print('User got it wrong');
+    }
+  }
+
   void incrementQuestion(int i) {
     setState(() {
-      if (i < questions.length) {
-        this.questionNumber++;
-      } else {
-        setState(() {
-          Text('End of Questions');
-        });
-      }
+      this.questionNumber++;
     });
   }
 }
