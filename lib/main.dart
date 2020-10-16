@@ -28,7 +28,6 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  int questionNumber = 0;
   List<Icon> scoreKeeper = [
     Icon(
       Icons.check,
@@ -53,7 +52,7 @@ class _QuizPageState extends State<QuizPage> {
             child: Center(
               child: Text(
 //                'This is where the question text will go.',
-                quizBrain.questionBank[questionNumber].question,
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -79,10 +78,12 @@ class _QuizPageState extends State<QuizPage> {
               onPressed: () {
                 //The user picked true.
 
-                correctOrWrongAnswer(true); //For correct answer
+                quizBrain.correctOrWrongAnswer(true); //For correct answer
 
 //                Increment Question
-                incrementQuestion(questionNumber);
+                setState(() {
+                  quizBrain.nextQuestion();
+                });
               },
             ),
           ),
@@ -102,10 +103,12 @@ class _QuizPageState extends State<QuizPage> {
               onPressed: () {
                 //The user picked false.
 
-                correctOrWrongAnswer(false); //For wrong answer
+                quizBrain.correctOrWrongAnswer(false); //For wrong answer
 
                 //Increment Question
-                incrementQuestion(questionNumber);
+                setState(() {
+                  quizBrain.nextQuestion();
+                });
               },
             ),
           ),
@@ -116,21 +119,6 @@ class _QuizPageState extends State<QuizPage> {
         )
       ],
     );
-  }
-
-  void correctOrWrongAnswer(bool trueOrFalse) {
-    bool correctAnswer = quizBrain.questionBank[questionNumber].answer;
-    if (correctAnswer == trueOrFalse) {
-      print('User got it right');
-    } else {
-      print('User got it wrong');
-    }
-  }
-
-  void incrementQuestion(int i) {
-    setState(() {
-      this.questionNumber++;
-    });
   }
 }
 
